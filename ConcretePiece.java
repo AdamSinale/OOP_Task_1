@@ -52,9 +52,9 @@ public abstract class ConcretePiece implements Piece{
     }
 }
 class movesComparator implements Comparator<ConcretePiece> {
-    private boolean playerOneWon;
-    public movesComparator(boolean playerOneWon){
-        this.playerOneWon = playerOneWon;
+    final boolean playerTwoWon;
+    public movesComparator(boolean playerTwoWon){
+        this.playerTwoWon = playerTwoWon;
     }
 
     public int compare(ConcretePiece piece1, ConcretePiece piece2){
@@ -64,21 +64,21 @@ class movesComparator implements Comparator<ConcretePiece> {
             }
             return piece1.getPositionsHistory().size() - piece2.getPositionsHistory().size();
         }
-        if(this.playerOneWon == piece1.getOwner().isPlayerOne()){return -1;}
-        return 1;
+        if(this.playerTwoWon == piece1.getOwner().isPlayerOne()){return 1;}
+        return -1;
     }
 }
 class distanceComparator implements Comparator<ConcretePiece> {
-    private boolean playerOneWon;
-    public distanceComparator(boolean playerOneWon){
-        this.playerOneWon = playerOneWon;
+    final boolean playerTwoWon;
+    public distanceComparator(boolean playerTwoWon){
+        this.playerTwoWon = playerTwoWon;
     }
 
     public int compare(ConcretePiece piece1, ConcretePiece piece2){
         if(piece2.getDistance() - piece1.getDistance() == 0){
             if (piece1.getId() == piece2.getId()) {
-                if(this.playerOneWon == piece1.getOwner().isPlayerOne()){return -1;}
-                return 1;
+                if(this.playerTwoWon == piece1.getOwner().isPlayerOne()){return 1;}
+                return -1;
             }
             return piece1.getId() - piece2.getId();
         }
