@@ -108,6 +108,8 @@ public class GameLogic implements PlayableLogic {
         // keep track for every move- from where, where to, and who are the neighbors
         moves.push(new Move(a,b,removedLeft,removedRight,removedTop,removedBottom,mainPiece));
         if(isGameFinished()){
+            if(!isSecondPlayerTurn()){ firstPlayer.playerWon(); }
+            else{ secondPlayer.playerWon(); }
             gameData(isSecondPlayerTurn());
         }
         secondPlayerTurn = !secondPlayerTurn;  //sets the other player's turn
@@ -123,7 +125,6 @@ public class GameLogic implements PlayableLogic {
     public boolean isGameFinished(){
         // If first player won by king getting to the corners
         if(Pawn.getDefendersKills()>21 || board[0][0] != null || board[10][10] != null || board[10][0] != null || board[0][10] != null){
-            firstPlayer.playerWon();
             return true;
         }
         // If second player won by surrounding the king
@@ -138,7 +139,6 @@ public class GameLogic implements PlayableLogic {
                (kingY == 0 || board[kingX][kingY-1] instanceof Pawn && !board[kingX][kingY-1].getOwner().isPlayerOne()) &&
                (kingX == 10 || board[kingX+1][kingY] instanceof Pawn && !board[kingX+1][kingY].getOwner().isPlayerOne()) &&
                (kingX == 0 || board[kingX-1][kingY] instanceof Pawn && !board[kingX-1][kingY].getOwner().isPlayerOne())){
-                secondPlayer.playerWon();
                 return true;
             }
         }
