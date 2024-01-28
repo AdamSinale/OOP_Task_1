@@ -35,16 +35,16 @@ public class Pawn extends ConcretePiece{
     }
 }
 class killsComparator implements Comparator<Pawn> {
-    private boolean playerOneWon;
-    public killsComparator(boolean playerOneWon){
-        this.playerOneWon = playerOneWon;
+    final boolean playerTwoWon;
+    public killsComparator(boolean playerTwoWon){
+        this.playerTwoWon = playerTwoWon;
     }
 
     public int compare(Pawn piece1, Pawn piece2){
         if(piece2.getKills() - piece1.getKills() == 0){
             if (piece1.getId() == piece2.getId()) {
-                if(this.playerOneWon == piece1.getOwner().isPlayerOne()){return -1;}
-                return 1;
+                if(this.playerTwoWon == piece1.getOwner().isPlayerOne()){return 1;}
+                return -1;
             }
             return piece1.getId() - piece2.getId();
         }
