@@ -107,8 +107,10 @@ public class GameLogic implements PlayableLogic {
         }
         // keep track for every move- from where, where to, and who are the neighbors
         moves.push(new Move(a,b,removedLeft,removedRight,removedTop,removedBottom,mainPiece));
+        if(isGameFinished()){
+            gameData(isSecondPlayerTurn());
+        }
         secondPlayerTurn = !secondPlayerTurn;  //sets the other player's turn
-        isGameFinished();
         return true; //if we got here then horizontal/vertical, different positions and free to go!
     }
     @Override
@@ -122,7 +124,6 @@ public class GameLogic implements PlayableLogic {
         // If first player won by king getting to the corners
         if(Pawn.getDefendersKills()>21 || board[0][0] != null || board[10][10] != null || board[10][0] != null || board[0][10] != null){
             firstPlayer.playerWon();
-            gameData(true);
             return true;
         }
         // If second player won by surrounding the king
@@ -138,7 +139,6 @@ public class GameLogic implements PlayableLogic {
                (kingX == 10 || board[kingX+1][kingY] instanceof Pawn && !board[kingX+1][kingY].getOwner().isPlayerOne()) &&
                (kingX == 0 || board[kingX-1][kingY] instanceof Pawn && !board[kingX-1][kingY].getOwner().isPlayerOne())){
                 secondPlayer.playerWon();
-                gameData(false);
                 return true;
             }
         }
@@ -146,8 +146,8 @@ public class GameLogic implements PlayableLogic {
 
         return false;
     }
-    public void gameData(boolean didPlayer1Win) {
-        allPieces.sort(new movesComparator(didPlayer1Win));
+    public void gameData(boolean didPlayer2Win) {
+        allPieces.sort(new movesComparator(didPlayer2Win));
         String STR_Q1 = "";
         for (ConcretePiece value : allPieces) {
             List<Position> piecePH = new ArrayList<>(value.getPositionsHistory());
@@ -169,7 +169,7 @@ public class GameLogic implements PlayableLogic {
                 allPawns.add((Pawn)piece);
             }
         }
-        allPawns.sort(new killsComparator(didPlayer1Win));
+        allPawns.sort(new killsComparator(didPlayer2Win));
         String STR_Q2 = "";
         for (Pawn allPawn : allPawns) {
             if (allPawn.getKills() > 0) {
@@ -179,7 +179,7 @@ public class GameLogic implements PlayableLogic {
         }
 
         String STR_Q3 = "";
-        allPieces.sort(new distanceComparator(didPlayer1Win));
+        allPieces.sort(new distanceComparator(didPlayer2Win));
         for (ConcretePiece piece : allPieces) {
             if (piece.getDistance() > 0) {
                 String add = piece.toString() + ": " + piece.getDistance() + " squares\n";
