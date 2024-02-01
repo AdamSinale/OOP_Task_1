@@ -30,6 +30,7 @@ public class Pawn extends ConcretePiece{
     public static void removeTotalkills(int kills){
         Pawn.defendersKills -= kills;
     }
+    public static void resetKills(){ Pawn.defendersKills = 0; }
     public String toString(){
         return (getOwner().isPlayerOne() ? "D" : "A") + this.id;
     }
