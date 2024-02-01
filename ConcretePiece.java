@@ -15,7 +15,7 @@ public abstract class ConcretePiece implements Piece{
         this.type = cp.getType();
         this.id = cp.getId();
         this.distance = cp.getDistance();
-        this.positionsHistory = cp.getPositionsHistory();
+        this.positionsHistory = new ArrayList<>(cp.getPositionsHistory());
     }
     @Override
     public Player getOwner(){
