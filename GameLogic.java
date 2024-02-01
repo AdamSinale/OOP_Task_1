@@ -111,6 +111,7 @@ public class GameLogic implements PlayableLogic {
             if(!isSecondPlayerTurn()){ firstPlayer.playerWon(); }
             else{ secondPlayer.playerWon(); }
             gameData(isSecondPlayerTurn());
+            reset();
         }
         secondPlayerTurn = !secondPlayerTurn;  //sets the other player's turn
         return true; //if we got here then horizontal/vertical, different positions and free to go!
@@ -223,6 +224,7 @@ public class GameLogic implements PlayableLogic {
     @Override
     public void reset(){
         moves = new Stack<>();
+        Pawn.resetKills();
         allPieces = new ArrayList<>();
         board = new ConcretePiece[boardSize][boardSize];
         boardPositions = new Position[boardSize][boardSize];
