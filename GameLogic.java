@@ -65,7 +65,7 @@ public class GameLogic implements PlayableLogic {
         board[bx][by] = board[ax][ay];
         if(boardPositions[bx][by]==null){boardPositions[bx][by] = new Position(bx,by);}
         board[bx][by].addPosition(boardPositions[bx][by]);
-        board[ax][ay].addDistance(distanceMoved);
+        board[bx][by].addDistance(distanceMoved);
         board[ax][ay] = null;
 
         //remove when enemy pawn between pawn and corner/edge/other pawn
@@ -189,15 +189,15 @@ public class GameLogic implements PlayableLogic {
 
         List<Position> positionsWalked= new ArrayList<>();
         String positionsSTR_Q4 = "";
-        for (ConcretePiece allPiece : allPieces) {
+        for (ConcretePiece piece : allPieces) {
             List<Position> piecePositions = new ArrayList<>();
-            for (int j = 0; j < allPiece.getPositionsHistory().size(); j++) {
-                if (!piecePositions.contains(allPiece.getPositionsHistory().get(j))) {
-                    allPiece.getPositionsHistory().get(j).addPieceStepped();
-                    piecePositions.add(allPiece.getPositionsHistory().get(j));
+            for (int j = 0; j < piece.getPositionsHistory().size(); j++) {
+                if (!piecePositions.contains(piece.getPositionsHistory().get(j))) {
+                    piece.getPositionsHistory().get(j).addPieceStepped();
+                    piecePositions.add(piece.getPositionsHistory().get(j));
                 }
-                if (!positionsWalked.contains(allPiece.getPositionsHistory().get(j))) {
-                    positionsWalked.add(allPiece.getPositionsHistory().get(j));
+                if (!positionsWalked.contains(piece.getPositionsHistory().get(j))) {
+                    positionsWalked.add(piece.getPositionsHistory().get(j));
                 }
             }
         }
